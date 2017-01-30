@@ -215,7 +215,7 @@ You may have noticed a line in a new Rails app's `app/assets/javascripts/applica
 
 Turbolinks is a gem that ships with Rails and that eliminates page refreshes when navigating around your app in the browser. 
 
-This sounds pretty cool, but the downside is that it only loads your assets once, on the first page-load, then it never loads them again.  This means  **any jQuery events you have set to run on page load won't work on subsequent pages**.
+This sounds pretty cool, but the downside is that it only loads your assets once, on the first page-load, then it never loads them again.  This means  **any jQuery events you have set to run on page load won't work on subsequent pages**.  Turbolinks gives developers new events to listen to in order to get around this, like `"turbolinks:load"`.  However, most apps the size we're working with won't need this added complexity. Plus, it won't hurt to practice jQuery with regular events over the next few weeks. 
 
 **We suggest removing turbolinks for the time being.**
 
@@ -286,14 +286,10 @@ It could be! It's more likely for very widespread libraries that your user's bro
 
 * See [exercises](exercises.md)
 
-## More details 
-
-* See [Working with JS in Rails](working-with-js.md) for strategies on scoping your JS.
-* See [Additional Reading](additional-reading.md) for a discussion of view helpers, assets and **disabling turbolinks**.
-
 ## Resources
 
-* [Asset Pipeline Additional Reading](./additional-reading.md)
+* See [Working with JS in Rails](working-with-js.md) for strategies on scoping your JS.
+* See [Additional Reading](additional-reading.md) for a more in-depth discussion of view helpers, assets and **disabling turbolinks**.
 * <a href="http://guides.rubyonrails.org/asset_pipeline.html">Rails Guides: Asset Pipeline</a>
 * <a href="https://github.com/rails/sprockets#sprockets-directives">Sprockets Directives</a>
 * List of [view helpers for asset tags](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html).
