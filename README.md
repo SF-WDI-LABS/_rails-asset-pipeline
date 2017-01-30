@@ -8,6 +8,7 @@ Location: SF
 
 # Rails Asset Pipeline
 
+
 ### Why is this important?
 <!-- framing the "why" in big-picture/real world examples -->
 *This workshop is important because:*
