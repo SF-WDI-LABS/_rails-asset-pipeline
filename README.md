@@ -288,9 +288,9 @@ It could be! It's more likely for very widespread libraries that your user's bro
 
 ## Resources
 
-* See [Working with JS in Rails](working-with-js.md) for strategies on scoping your JS.
-* See [Additional Reading](additional-reading.md) for a more in-depth discussion of view helpers, assets and **disabling turbolinks**.
 * <a href="http://guides.rubyonrails.org/asset_pipeline.html">Rails Guides: Asset Pipeline</a>
 * <a href="https://github.com/rails/sprockets#sprockets-directives">Sprockets Directives</a>
 * List of [view helpers for asset tags](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html).
 * [Caching in Rails](http://guides.rubyonrails.org/caching_with_rails.html)
+* See [Controller-Specific Assets](http://guides.rubyonrails.org/asset_pipeline.html#controller-specific-assets) and/or [Working with JS in Rails](working-with-js.md) for strategies on scoping your JS.
+* See [Additional Reading](additional-reading.md) for a more in-depth discussion of view helpers, assets and **disabling turbolinks**.
