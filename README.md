@@ -24,9 +24,9 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 <!-- specific/measurable goal for students to achieve -->
 *After this workshop, developers will be able to:*
 
-- Describe how the Rails Asset Pipeline works and why we use it.
+- List three things the Rails Asset Pipeline does.
+- Use asset helpers to include assets in Rails apps. 
 - Require custom and third-party assets in Rails. 
-- Precompile assets in development to debug asset issues in production.
 
 
 ### Where should we be now?
