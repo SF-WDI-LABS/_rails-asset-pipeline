@@ -2,7 +2,7 @@
 
 ### Asset Pipeline Poem
 
-Start with the [asset pipeline poem lab](https://github.com/sf-wdi-31/asset_pipeline_poem).  Move on to the "Take it Further!" challenges below when you have these steps complete:
+Start with the [asset pipeline poem lab](https://github.com/sf-wdi-34/asset-pipeline-poem).  Move on to the "Take it Further!" challenges below when you have these steps complete:
 
 1. Put the lines of the file and title in the correct order.  
 2. Show the character count (see screenshot in lab readme).  
