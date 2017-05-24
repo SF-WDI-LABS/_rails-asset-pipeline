@@ -51,7 +51,7 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 
 ## How the Rails Asset Pipeline Works
 
-**Have you ever done somethint like this?** 
+**Have you ever done something like this?** 
 
 ```html
 <!DOCTYPE html>
