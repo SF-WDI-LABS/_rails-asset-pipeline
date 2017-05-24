@@ -103,12 +103,12 @@ In Rails, the asset pipeline:
 > Note: There are similar tools for JS backends as well, but they usually require more setup than Rails does.
 
 
-####Check for Understanding
+#### Check for Understanding
 
 If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages will those scripts and styles apply to?
 
   <details><summary>click for answer</summary>
-  **All** of your JavaScript and CSS is active on **EVERY PAGE**.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
+  <strong>All</strong> of your JavaScript and CSS is active on <strong>EVERY PAGE</strong>.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
   </details>
 
 
@@ -136,9 +136,9 @@ The Asset Pipeline will look for the name of the file (e.g. `jquery`) in the fol
 
 After Rails processes all the files, it replaces the `<%= javascript_include_tag :application %>` tag in `app/views/layouts/application.html.erb` with a link to the new file it generates.  It does the same with the `stylesheet_link_tag`.  
 
-> Note that by default, Rails links both CSS and JavaScript in the `<head>`.  You can JavaScript to the bottom of the `<body>` to make sure it doesn't slow down the loading of your HTML.
+> Note that by default, Rails links both CSS and JavaScript in the `<head>`.  You can move JavaScript to the bottom of the `<body>` to make sure it doesn't slow down the loading of your HTML.
 
-####Check for Understanding
+#### Check for Understanding
 
 1. Why is it important to specify the order of files in a JavaScript or CSS manifest?
 
@@ -187,7 +187,7 @@ $('#logo').attr({ src: "<%= asset_path('logo.png') %>" });
 
 ## Caching
 
-Manifests help Rails know how to order all of the different files and combine them into one. But Rails does something with the file name tha tmight seem odd. It adds a large string of random-looking characters in production. For example, you might see a CSS file called `application-908e25f4bf641868d8683022a5b62f54.css`.   Why not just call it `application.css`?
+Manifests help Rails know how to order all of the different files and combine them into one. But Rails does something with the file name that might seem odd. It adds a large string of random-looking characters in production. For example, you might see a CSS file called `application-908e25f4bf641868d8683022a5b62f54.css`.   Why not just call it `application.css`?
 
 As you know, web applications can be configured to "cache" files in the client's browser, including JavaScript and CSS.
 
