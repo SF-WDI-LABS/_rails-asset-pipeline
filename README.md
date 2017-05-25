@@ -53,7 +53,7 @@ You can think of the asset pipeline as a piece of software that packs up all of 
 
 ![](https://media.giphy.com/media/3oEduJhbXffYSqZwt2/giphy.gif)
 
-![](https://media.giphy.com/media/14rmvzmNTdTRQs/giphy.gif)
+![bear gif](https://cloud.githubusercontent.com/assets/6520345/26462420/9362dca0-4135-11e7-9284-c6415f38f272.gif)
 
 ## How the Rails Asset Pipeline Works
 
