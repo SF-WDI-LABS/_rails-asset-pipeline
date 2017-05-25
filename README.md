@@ -39,6 +39,8 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 
 ## Asset Pipeline Overview
 
+You can think of the asset pipeline as a piece of software that packs up all of your files so that they will be easier and lighter to deliver to the browser.
+
 **The goal of the asset pipeline is to:**
 
 * Compress assets (CSS and JavaScript files) so they are as small as possible, since smaller files load faster.
@@ -49,15 +51,15 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
   2. Caching files in the browser.  
 * Facilitate use of languages like SASS and CoffeeScript, which compile into CSS or JavaScript.
 
-You can think of the asset pipeline as a piece of software that packs up all of your files so that they will be easier and lighter to deliver to the browser.
-
-![](https://media.giphy.com/media/3oEduJhbXffYSqZwt2/giphy.gif)
 
 ![bear gif](https://cloud.githubusercontent.com/assets/6520345/26462420/9362dca0-4135-11e7-9284-c6415f38f272.gif)
 
-## How the Rails Asset Pipeline Works
+![](https://media.giphy.com/media/3oEduJhbXffYSqZwt2/giphy.gif)
 
-**Have you ever done something like this?** 
+
+## Why do we need the asset pipeline?
+
+**Have you ever included a handful of JS files like this?** 
 
 ```html
 <!DOCTYPE html>
@@ -72,13 +74,13 @@ You can think of the asset pipeline as a piece of software that packs up all of 
 </body>
 </html>
 ```
-In the chrome network tab you see something like: 
+In the chrome network tab you can see how these files download to the browser: 
 
 ![chrome network tab](assets/images/chrome_network_tab.png "chrome network tab")
 
 That's three different requests to the server, for three different files. And that's just for JavaScript.  See how that time adds up? 
 
-In Rails, the asset pipeline is a better way. Here's how Rails requires files, using the asset pipeline:
+In Rails, the asset pipeline is a better way. It makes one request for JS files and one request for CSS files. Here's how Rails requires files, using the asset helpers provided by the asset pipeline:
 
 ```html
 <!-- app/views/layouts/application.html.erb -->
@@ -134,7 +136,9 @@ Inside this file, there's a weird looking series of comments called a "manifest"
 
 Actually, **these aren't comments!** This manifest file lists a series of instructions saying *which files* need to be loaded in your HTML, and *in what order*.  With these instructions, a gem called `sprockets-rails` loads the files specified, processes them if necessary, **concatenates** them into one single file, and then compresses them (if `Rails.application.config.assets.compress` is `true`).
 
-The Asset Pipeline will look for the name of the file (e.g. `jquery`) in the following directories:
+The `//= require_tree .` line has the important function of including all of the JS files in the `.` (current) directory. That is, it includes all of the JS files in `app/assets/javascripts`.
+
+When you `require` a file, the Asset Pipeline will look for the name of the file (e.g. `jquery`) in the following directories:
 
 1. `app/assets/` - application-specific code
 2. `lib/assets/` - custom libraries not specific to this app
@@ -147,8 +151,11 @@ After Rails processes all the files, it replaces the `<%= javascript_include_tag
 #### Check for Understanding
 
 1. Why is it important to specify the order of files in a JavaScript or CSS manifest?
+  <details><summary>click for answer</summary>
+    It determines the load order of the files. If a file uses jQuery syntax, for example, jQuery must appear before that file in the manifest. Otherwise, jQuery won't have loaded and it won't work.  
+  </details>
 
-1. Which file do you think is the CSS manifest?
+2. Which file do you think is the CSS manifest?
 
   <details><summary>click for answer</summary>
   It's `app/assets/stylesheets/application.css`, and by default it looks like this:
@@ -172,7 +179,7 @@ Images can also be organized into subdirectories, and then can be accessed by sp
 
 #### ERB and Asset Path Helpers
 
-The asset pipeline automatically evaluates ERB. This means if you add a `.erb` extension to a CSS asset (for example, `application.css.erb`), then helpers like [`asset_path`](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html) are available in your CSS rules:
+The asset pipeline automatically evaluates ERB. It is able to translate ERB into CSS, HTML, or JS. This means if you add a `.erb` extension to a CSS asset (for example, `application.css.erb`), then helpers like [`asset_path`](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html) are available in your CSS rules:
 
 ```css
 .header {
@@ -208,7 +215,7 @@ By default, Rails enables caching.
 
 But what if you changed the file, and the browser was still using an older version? This is where "fingerprinting" comes in - it gives us a way to bust the cache! 
 
-In Rails, assets are given a "fingerprint" that changes every time the file is updated. The asset pipeline  inserts a hash of the file contents into the file name itself. That's why we'll see file names like `application-908e25f4bf641868d8683022a5b62f54.js` instead of `application.js`.
+In Rails, assets are given a "fingerprint" that changes every time the file is updated. The asset pipeline inserts a hash of the file contents into the file name itself. That's why we'll see file names like `application-908e25f4bf641868d8683022a5b62f54.js` instead of `application.js`.
 
 **Cache-busting works like this:**
 
