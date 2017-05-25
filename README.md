@@ -49,6 +49,12 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
   2. Caching files in the browser.  
 * Facilitate use of languages like SASS and CoffeeScript, which compile into CSS or JavaScript.
 
+You can think of the asset pipeline as a piece of software that packs up all of your files so that they will be easier and lighter to deliver to the browser.
+
+![](https://media.giphy.com/media/3oEduJhbXffYSqZwt2/giphy.gif)
+
+![](https://media.giphy.com/media/14rmvzmNTdTRQs/giphy.gif)
+
 ## How the Rails Asset Pipeline Works
 
 **Have you ever done something like this?** 
@@ -58,7 +64,7 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 <html lang="en">
 <head>
   <script type="text/javascript" src="vendor/scripts/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="vendor/scripts/handlebars-v4.0.5.js"></script>
+  <script type="text/javascript" src="vendor/scripts/materialize.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
   <title>Load things!</title>
 </head>
@@ -105,7 +111,7 @@ In Rails, the asset pipeline:
 
 #### Check for Understanding
 
-If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages will those scripts and styles apply to?
+If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages of your site will those scripts and styles apply to?
 
   <details><summary>click for answer</summary>
   <strong>All</strong> of your JavaScript and CSS is active on <strong>EVERY PAGE</strong>.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
