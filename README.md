@@ -103,7 +103,7 @@ In Rails, the asset pipeline:
 > Note: There are similar tools for JS backends as well, but they usually require more setup than Rails does.
 
 
-####Check for Understanding
+#### Check for Understanding
 
 If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages will those scripts and styles apply to?
 
@@ -138,7 +138,7 @@ After Rails processes all the files, it replaces the `<%= javascript_include_tag
 
 > Note that by default, Rails links both CSS and JavaScript in the `<head>`.  You can JavaScript to the bottom of the `<body>` to make sure it doesn't slow down the loading of your HTML.
 
-####Check for Understanding
+#### Check for Understanding
 
 1. Why is it important to specify the order of files in a JavaScript or CSS manifest?
 
