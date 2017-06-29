@@ -39,6 +39,8 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 
 ## Asset Pipeline Overview
 
+You can think of the asset pipeline as a piece of software that packs up all of your files so that they will be easier and lighter to deliver to the browser.
+
 **The goal of the asset pipeline is to:**
 
 * Compress assets (CSS and JavaScript files) so they are as small as possible, since smaller files load faster.
@@ -49,16 +51,22 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
   2. Caching files in the browser.  
 * Facilitate use of languages like SASS and CoffeeScript, which compile into CSS or JavaScript.
 
-## How the Rails Asset Pipeline Works
 
-**Have you ever done something like this?** 
+![bear gif](https://cloud.githubusercontent.com/assets/6520345/26462420/9362dca0-4135-11e7-9284-c6415f38f272.gif)
+
+![](https://media.giphy.com/media/3oEduJhbXffYSqZwt2/giphy.gif)
+
+
+## Why do we need the asset pipeline?
+
+**Have you ever included a handful of JS files like this?** 
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <script type="text/javascript" src="vendor/scripts/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="vendor/scripts/handlebars-v4.0.5.js"></script>
+  <script type="text/javascript" src="vendor/scripts/materialize.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
   <title>Load things!</title>
 </head>
@@ -66,13 +74,13 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 </body>
 </html>
 ```
-In the chrome network tab you see something like: 
+In the chrome network tab you can see how these files download to the browser: 
 
 ![chrome network tab](assets/images/chrome_network_tab.png "chrome network tab")
 
 That's three different requests to the server, for three different files. And that's just for JavaScript.  See how that time adds up? 
 
-In Rails, the asset pipeline is a better way. Here's how Rails requires files, using the asset pipeline:
+In Rails, the asset pipeline is a better way. It makes one request for JS files and one request for CSS files. Here's how Rails requires files, using the asset helpers provided by the asset pipeline:
 
 ```html
 <!-- app/views/layouts/application.html.erb -->
@@ -105,10 +113,10 @@ In Rails, the asset pipeline:
 
 #### Check for Understanding
 
-If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages will those scripts and styles apply to?
+If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages of your site will those scripts and styles apply to?
 
   <details><summary>click for answer</summary>
-  **All** of your JavaScript and CSS is active on **EVERY PAGE**.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
+  <strong>All</strong> of your JavaScript and CSS is active on <strong>EVERY PAGE</strong>.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
   </details>
 
 
@@ -128,7 +136,9 @@ Inside this file, there's a weird looking series of comments called a "manifest"
 
 Actually, **these aren't comments!** This manifest file lists a series of instructions saying *which files* need to be loaded in your HTML, and *in what order*.  With these instructions, a gem called `sprockets-rails` loads the files specified, processes them if necessary, **concatenates** them into one single file, and then compresses them (if `Rails.application.config.assets.compress` is `true`).
 
-The Asset Pipeline will look for the name of the file (e.g. `jquery`) in the following directories:
+The `//= require_tree .` line has the important function of including all of the JS files in the `.` (current) directory. That is, it includes all of the JS files in `app/assets/javascripts`.
+
+When you `require` a file, the Asset Pipeline will look for the name of the file (e.g. `jquery`) in the following directories:
 
 1. `app/assets/` - application-specific code
 2. `lib/assets/` - custom libraries not specific to this app
@@ -136,13 +146,16 @@ The Asset Pipeline will look for the name of the file (e.g. `jquery`) in the fol
 
 After Rails processes all the files, it replaces the `<%= javascript_include_tag :application %>` tag in `app/views/layouts/application.html.erb` with a link to the new file it generates.  It does the same with the `stylesheet_link_tag`.  
 
-> Note that by default, Rails links both CSS and JavaScript in the `<head>`.  You can JavaScript to the bottom of the `<body>` to make sure it doesn't slow down the loading of your HTML.
+> Note that by default, Rails links both CSS and JavaScript in the `<head>`.  You can move JavaScript to the bottom of the `<body>` to make sure it doesn't slow down the loading of your HTML.
 
 #### Check for Understanding
 
 1. Why is it important to specify the order of files in a JavaScript or CSS manifest?
+  <details><summary>click for answer</summary>
+    It determines the load order of the files. If a file uses jQuery syntax, for example, jQuery must appear before that file in the manifest. Otherwise, jQuery won't have loaded and it won't work.  
+  </details>
 
-1. Which file do you think is the CSS manifest?
+2. Which file do you think is the CSS manifest?
 
   <details><summary>click for answer</summary>
   It's `app/assets/stylesheets/application.css`, and by default it looks like this:
@@ -166,7 +179,7 @@ Images can also be organized into subdirectories, and then can be accessed by sp
 
 #### ERB and Asset Path Helpers
 
-The asset pipeline automatically evaluates ERB. This means if you add a `.erb` extension to a CSS asset (for example, `application.css.erb`), then helpers like [`asset_path`](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html) are available in your CSS rules:
+The asset pipeline automatically evaluates ERB. It is able to translate ERB into CSS, HTML, or JS. This means if you add a `.erb` extension to a CSS asset (for example, `application.css.erb`), then helpers like [`asset_path`](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetUrlHelper.html) are available in your CSS rules:
 
 ```css
 .header {
@@ -187,7 +200,7 @@ $('#logo').attr({ src: "<%= asset_path('logo.png') %>" });
 
 ## Caching
 
-Manifests help Rails know how to order all of the different files and combine them into one. But Rails does something with the file name tha tmight seem odd. It adds a large string of random-looking characters in production. For example, you might see a CSS file called `application-908e25f4bf641868d8683022a5b62f54.css`.   Why not just call it `application.css`?
+Manifests help Rails know how to order all of the different files and combine them into one. But Rails does something with the file name that might seem odd. It adds a large string of random-looking characters in production. For example, you might see a CSS file called `application-908e25f4bf641868d8683022a5b62f54.css`.   Why not just call it `application.css`?
 
 As you know, web applications can be configured to "cache" files in the client's browser, including JavaScript and CSS.
 
@@ -202,7 +215,7 @@ By default, Rails enables caching.
 
 But what if you changed the file, and the browser was still using an older version? This is where "fingerprinting" comes in - it gives us a way to bust the cache! 
 
-In Rails, assets are given a "fingerprint" that changes every time the file is updated. The asset pipeline  inserts a hash of the file contents into the file name itself. That's why we'll see file names like `application-908e25f4bf641868d8683022a5b62f54.js` instead of `application.js`.
+In Rails, assets are given a "fingerprint" that changes every time the file is updated. The asset pipeline inserts a hash of the file contents into the file name itself. That's why we'll see file names like `application-908e25f4bf641868d8683022a5b62f54.js` instead of `application.js`.
 
 **Cache-busting works like this:**
 
