@@ -18,7 +18,7 @@ Start with the [asset pipeline poem lab](https://github.com/sf-wdi-labs/asset-pi
  ```
    <%= image_tag 'rails.png' %>
  ```
- 
+
 3. Check out [other asset tag helpers](http://api.rubyonrails.org/classes/ActionView/Helpers/AssetTagHelper.html), and add one more of any kind (could be another image) to your asset pipeline poem.
 
 #### Using `asset_path`

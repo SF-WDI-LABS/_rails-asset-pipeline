@@ -13,7 +13,7 @@ Location: SF
 <!-- framing the "why" in big-picture/real world examples -->
 *This workshop is important because:*
 
-The asset pipeline reduces load time for users. Also, it's important to use it correctly if you want your site to work with many other gems that modify the front end. 
+The asset pipeline reduces load time for users. Also, it's important to use it correctly if you want your site to work with many other gems that modify the front end.
 
 > The asset pipeline provides a framework to concatenate and minify or compress JavaScript and CSS assets. It also adds the ability to write these assets in other languages and pre-processors such as CoffeeScript, Sass and ERB. It allows assets in your application to be automatically combined with assets from other gems.
 
@@ -25,17 +25,17 @@ The asset pipeline reduces load time for users. Also, it's important to use it c
 *After this workshop, developers will be able to:*
 
 - List three things the Rails Asset Pipeline does.
-- Use asset helpers to include assets in Rails apps. 
-- Require custom and third-party assets in Rails. 
+- Use asset helpers to include assets in Rails apps.
+- Require custom and third-party assets in Rails.
 
 
 ### Where should we be now?
 <!-- call out the skills that are prerequisites -->
 *Before this workshop, developers should already be able to:*
 
-- Build HTML pages with a templating language like ERB, Handlebars, EJS, Jade, etc. 
-- Explain how JavaScript and CSS contribute to the front end of a website. 
-- Explain why the order in which JavaScript or CSS files are loaded matters. 
+- Build HTML pages with a templating language like ERB, Handlebars, EJS, Jade, etc.
+- Explain how JavaScript and CSS contribute to the front end of a website.
+- Explain why the order in which JavaScript or CSS files are loaded matters.
 
 ## Asset Pipeline Overview
 
@@ -59,7 +59,7 @@ You can think of the asset pipeline as a piece of software that packs up all of 
 
 ## Why do we need the asset pipeline?
 
-**Have you ever included a handful of JS files like this?** 
+**Have you ever included a handful of JS files like this?**
 
 ```html
 <!DOCTYPE html>
@@ -74,11 +74,11 @@ You can think of the asset pipeline as a piece of software that packs up all of 
 </body>
 </html>
 ```
-In the chrome network tab you can see how these files download to the browser: 
+In the chrome network tab you can see how these files download to the browser:
 
 ![chrome network tab](assets/images/chrome_network_tab.png "chrome network tab")
 
-That's three different requests to the server, for three different files. And that's just for JavaScript.  See how that time adds up? 
+That's three different requests to the server, for three different files. And that's just for JavaScript.  See how that time adds up?
 
 In Rails, the asset pipeline is a better way. It makes one request for JS files and one request for CSS files. Here's how Rails requires files, using the asset helpers provided by the asset pipeline:
 
@@ -100,13 +100,13 @@ In Rails, the asset pipeline is a better way. It makes one request for JS files 
 </html>
 ```
 
-That's just two files, **one** for JavaScript and **one** for CSS! 
+That's just two files, **one** for JavaScript and **one** for CSS!
 
 In Rails, the asset pipeline:
 
-* concatentates files together
+* concatenates files together
 * minifies them
-* compresses them 
+* compresses them
 
 > Note: There are similar tools for JS backends as well, but they usually require more setup than Rails does.
 
@@ -122,7 +122,7 @@ If your site has one JavaScript and one CSS file that are linked in the `<head>`
 
 ### Concatenation and The Manifest
 
-With the Asset Pipeline, instead of manually adding `<script>` tags, you're going to use `<%= javascript_include_tag :application %>` in your application's `<head>`. Then, you'll specify what exactly that "includes" in a file called `app/assets/javascripts/application.js`. 
+With the Asset Pipeline, instead of manually adding `<script>` tags, you're going to use `<%= javascript_include_tag :application %>` in your application's `<head>`. Then, you'll specify what exactly that "includes" in a file called `app/assets/javascripts/application.js`.
 
 Inside this file, there's a weird looking series of comments called a "manifest":
 
@@ -159,18 +159,18 @@ After Rails processes all the files, it replaces the `<%= javascript_include_tag
 
   <details><summary>click for answer</summary>
   It's `app/assets/stylesheets/application.css`, and by default it looks like this:
-  
+
   ```css
    /* inside app/assets/stylesheets/application.css
    *= require_tree .
    *= require_self
    */
   ```
-  
-  It determines the load order of CSS files just like the JavaScript manifest determines the order of JavaScript files. 
+
+  It determines the load order of CSS files just like the JavaScript manifest determines the order of JavaScript files.
   </details>
-  
-  
+
+
 #### Images
 
 In views, you can access images in the `public/assets/images` directory like this: `<%= image_tag "rails.png" %>`.
@@ -211,9 +211,9 @@ Cached files don't need to be requested *on every page load*. They're already th
 
 #### Cache-Busting with Fingerprints
 
-By default, Rails enables caching. 
+By default, Rails enables caching.
 
-But what if you changed the file, and the browser was still using an older version? This is where "fingerprinting" comes in - it gives us a way to bust the cache! 
+But what if you changed the file, and the browser was still using an older version? This is where "fingerprinting" comes in - it gives us a way to bust the cache!
 
 In Rails, assets are given a "fingerprint" that changes every time the file is updated. The asset pipeline inserts a hash of the file contents into the file name itself. That's why we'll see file names like `application-908e25f4bf641868d8683022a5b62f54.js` instead of `application.js`.
 
@@ -227,10 +227,13 @@ In Rails, assets are given a "fingerprint" that changes every time the file is u
 
 You may have noticed a line in a new Rails app's `app/assets/javascripts/application.js` that says to `//= require turbolinks`.
 
-Turbolinks is a gem that ships with Rails and that eliminates page refreshes when navigating around your app in the browser. 
+Turbolinks is a gem that ships with Rails and that eliminates page refreshes when navigating around your app in the browser. It makes the site feel faster as people are using it.
 
-This sounds pretty cool, but the downside is that it only loads your assets once, on the first page-load, then it never loads them again.  This means  **any jQuery events you have set to run on page load won't work on subsequent pages**.  Turbolinks gives developers new events to listen to in order to get around this, like `"turbolinks:load"`.  However, most apps the size we're working with won't need this added complexity. Plus, it won't hurt to practice jQuery with regular events over the next few weeks. 
+This sounds pretty cool, but the downside is that it only loads your assets once, on the first page-load, then it never loads them again.  This means  **any jQuery events you have set to run on page load won't work on subsequent pages**.  Turbolinks gives developers new events to listen to in order to get around this, like `"turbolinks:load"`.  However, most apps the size we're working with won't need this added complexity.
 
+This means you have two options:
+
+### 1. Removing Turbolinks
 **We suggest removing turbolinks for the time being.**
 
 To create an app without turbolinks:  
@@ -243,14 +246,16 @@ To remove turbolinks from an existing app:
 2. Remove `//= require turbolinks` from `app/assets/javascripts/application.js`.
 3. Delete `gem 'turbolinks'` from your `Gemfile`, and `bundle` again.
 
+### 2. Using Turbolinks
+You can still write Javascript AND use Turbolinks in your app. Many more details are in [this lab](https://github.com/SF-WDI-LABS/rails-js-and-turbolinks).
 
 
 
 ## Compression / Minification / Uglification
 
-In addition to putting all the JavaScript in one file and naming it based on contents, the Asset Pipeline compresses this file so it's smaller. 
+In addition to putting all the JavaScript in one file and naming it based on contents, the Asset Pipeline compresses this file so it's smaller.
 
-#### Check for Understanding 
+#### Check for Understanding
 
 1. What's the difference between <a href="https://code.jquery.com/jquery-1.11.3.js">jquery-1.11.3.js</a> and <a href="https://code.jquery.com/jquery-1.11.3.min.js">jquery-1.11.3.min.js</a>?
 
@@ -268,11 +273,11 @@ In addition to putting all the JavaScript in one file and naming it based on con
   #   5       1413    95957
   ```
 
-Rails also compresses CSS this way. 
+Rails also compresses CSS this way.
 
 ## Precompiling Assets
 
-All of these techniques make Rails faster, but in the Rails development environment many of the above techniques are **not enabled**.  We can try them out just to see what it's like. 
+All of these techniques make Rails faster, but in the Rails development environment many of the above techniques are **not enabled**.  We can try them out just to see what it's like.
 
 Take a look at the instructions for [Precompiling Assets](precompile_assets.md) for a way to try out the full power of the asset pipeline in your development environment.
 
