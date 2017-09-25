@@ -158,7 +158,7 @@ After Rails processes all the files, it replaces the `<%= javascript_include_tag
 2. Which file do you think is the CSS manifest?
 
   <details><summary>click for answer</summary>
-  It's `app/assets/stylesheets/application.css`, and by default it looks like this:
+  It's <code>app/assets/stylesheets/application.css</code>, and by default it looks like this:
 
   ```css
    /* inside app/assets/stylesheets/application.css
