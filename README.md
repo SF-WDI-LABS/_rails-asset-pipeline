@@ -116,7 +116,7 @@ In Rails, the asset pipeline:
 If your site has one JavaScript and one CSS file that are linked in the `<head>` of `app/views/layouts/application.html.erb`, which pages of your site will those scripts and styles apply to?
 
   <details><summary>click for answer</summary>
-  <strong>All</strong> of your JavaScript and CSS is active on <strong>EVERY PAGE</strong>.  So is your CSS.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
+  <strong>All</strong> of your JavaScript and CSS is active on <strong>EVERY PAGE</strong>.  When writing code for a specific page, you need to think about whether it will affect other pages on the site.
   </details>
 
 
